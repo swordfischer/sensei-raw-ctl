@@ -39,6 +39,7 @@ Report ID and wIndex set to zero.
 	0x03 for medium speed
 	0x04 for fast
 	0x05 for trigger, led pulses when clicked
+	0x06 for movement, led turns off when mouse is moved
 
 0x04 0x00 <POLLING>
   Sets the polling frequency.  The value can be one of these values:
