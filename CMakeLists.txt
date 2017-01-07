@@ -14,6 +14,7 @@ configure_file (${PROJECT_SOURCE_DIR}/config.h.in
 include_directories (${PROJECT_BINARY_DIR})
 
 add_executable (${PROJECT_NAME} ${PROJECT_NAME}.c)
+add_executable (sensei-wireless-ctl sensei-wireless-ctl.c)
 target_link_libraries (${PROJECT_NAME} ${dependencies_LIBRARIES})
 install (TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
 
