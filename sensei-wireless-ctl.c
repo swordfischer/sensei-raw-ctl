@@ -280,7 +280,6 @@ struct sensei_config
 	enum sensei_mode mode;
 	int cpi_off;
 	int cpi_on;
-	enum sensei_wireless_sleeptime sleeptime;
 	enum sensei_wireless_sensor_smartmode smartsensor;
 	enum sensei_wireless_illumination_smartmode smartillumination;
 	enum sensei_wireless_liftdistance liftdistance;
@@ -389,27 +388,25 @@ sensei_load_config (libusb_device_handle *device,
 		USB_GET_REPORT, 0x0300, 0x0000, data, sizeof data, 0);
 	if (result < 0)
 		return result;
-
-	config->sleeptime			= data[74];
 	
-	config->polling				= data[77];
+	config->polling				= data[210];
 	
-	config->cpi1				= data[79];
+	config->cpi1				= data[184];
 
-	config->logomode			= data[81];
-	config->logocolor_r			= data[82];
-	config->logocolor_g			= data[83];
-	config->logocolor_b			= data[84];
-	config->wheelmode			= data[85];
-	config->wheelcolor_r		= data[86];
-	config->wheelcolor_g		= data[87];
-	config->wheelcolor_b		= data[88];
-	config->liftdistance		= data[93];
+	config->logomode			= data[78];
+	config->logocolor_r			= data[79];
+	config->logocolor_g			= data[80];
+	config->logocolor_b			= data[81];
+	config->wheelmode			= data[82]; // NOPE
+	config->wheelcolor_r		= data[83]; // NOPE
+	config->wheelcolor_g		= data[84]; // NOPE
+	config->wheelcolor_b		= data[85]; // NOPE
+	config->liftdistance		= data[221]; 
 
-	config->cpi2				= data[170];
+	config->cpi2				= data[187]; 
 	
-	config->smartsensor			= data[189];
-	config->smartillumination	= data[190];
+	config->smartsensor			= data[224];
+	config->smartillumination	= data[225];
 
 	return 0;
 }
@@ -419,32 +416,6 @@ sensei_load_config (libusb_device_handle *device,
 static void
 sensei_display_config (const struct sensei_config *config)
 {
-	printf ("Sleep timer: ");
-	switch (config->sleeptime)
-	{
-		case SLEEPTIME_01:	printf (" 1s\n");     break;
-		case SLEEPTIME_02:	printf (" 2s\n");     break;
-		case SLEEPTIME_03:	printf (" 3s\n");     break;
-		case SLEEPTIME_04:	printf (" 4s\n");     break;
-		case SLEEPTIME_05:	printf (" 5s\n");     break;
-		case SLEEPTIME_06:	printf (" 6s\n");     break;
-		case SLEEPTIME_07:	printf (" 7s\n");     break;
-		case SLEEPTIME_08:	printf (" 8s\n");     break;
-		case SLEEPTIME_09:	printf (" 9s\n");     break;
-		case SLEEPTIME_10:	printf ("10s\n");     break;
-		case SLEEPTIME_11:	printf ("11s\n");     break;
-		case SLEEPTIME_12:	printf ("12s\n");     break;
-		case SLEEPTIME_13:	printf ("13s\n");     break;
-		case SLEEPTIME_14:	printf ("14s\n");     break;
-		case SLEEPTIME_15:	printf ("15s\n");     break;
-		case SLEEPTIME_16:	printf ("16s\n");     break;
-		case SLEEPTIME_17:	printf ("17s\n");     break;
-		case SLEEPTIME_18:	printf ("18s\n");     break;
-		case SLEEPTIME_19:	printf ("19s\n");     break;
-		case SLEEPTIME_20:	printf ("20s\n");     break;
-		default:			printf ("unknown\n");
-	}
-
 	printf ("Sensor Smart Mode: ");
 	switch (config->smartsensor)
 	{

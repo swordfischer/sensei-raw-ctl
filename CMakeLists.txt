@@ -16,6 +16,7 @@ include_directories (${PROJECT_BINARY_DIR})
 add_executable (${PROJECT_NAME} ${PROJECT_NAME}.c)
 add_executable (sensei-wireless-ctl sensei-wireless-ctl.c)
 target_link_libraries (${PROJECT_NAME} ${dependencies_LIBRARIES})
+target_link_libraries (sensei-wireless-ctl ${dependencies_LIBRARIES})
 install (TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 pkg_check_modules (gtk3 gtk+-3.0)
