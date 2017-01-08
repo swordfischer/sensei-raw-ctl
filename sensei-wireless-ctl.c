@@ -183,33 +183,6 @@ enum sensei_wireless_cpi2
 	CPI2 = 1
 };
 
-/** Wireless Base Color Mode. */
-enum sensei_wireless_base_mode
-{
-	BASECOLOR_MODE_STEADY = 1,
-	BASECOLOR_MODE_SLOW_BREATHE,
-	BASECOLOR_MODE_MEDIUM_BREATHE,
-	BASECOLOR_MODE_FAST_BREATHE,
-	BASECOLOR_MODE_TRIGGER,
-	BASECOLOR_MODE_BATTERY_STATUS
-};
-
-/** Wireless Base Color. */
-enum sensei_wireless_base_color_r
-{
-	BASECOLOR_R = 1
-};
-
-enum sensei_wireless_base_color_g
-{
-	BASECOLOR_G = 1
-};
-
-enum sensei_wireless_base_color_b
-{
-	BASECOLOR_B = 1
-};
-
 /** Wireless Wheel Color Mode. */
 enum sensei_wireless_wheel_mode
 {
@@ -313,10 +286,6 @@ struct sensei_config
 	enum sensei_wireless_liftdistance liftdistance;
 	enum sensei_wireless_cpi1 cpi1;
 	enum sensei_wireless_cpi2 cpi2;
-	enum sensei_wireless_base_mode basemode;
-	enum sensei_wireless_base_color_r basecolor_r;
-	enum sensei_wireless_base_color_g basecolor_g;
-	enum sensei_wireless_base_color_b basecolor_b;
 	enum sensei_wireless_wheel_mode wheelmode;
 	enum sensei_wireless_wheel_color_r wheelcolor_r;
 	enum sensei_wireless_wheel_color_g wheelcolor_g;
@@ -435,10 +404,6 @@ sensei_load_config (libusb_device_handle *device,
 	config->wheelcolor_r		= data[86];
 	config->wheelcolor_g		= data[87];
 	config->wheelcolor_b		= data[88];
-	config->basemode			= data[89];
-	config->basecolor_r			= data[90];
-	config->basecolor_g			= data[91];
-	config->basecolor_b			= data[92];
 	config->liftdistance		= data[93];
 
 	config->cpi2				= data[170];
@@ -506,19 +471,6 @@ sensei_display_config (const struct sensei_config *config)
 		case LIFTDISTANCE_05:	printf("5\n");	break;
 		default:				printf("unknown\n");
 	}
-
-	printf ("Base Color Mode: ");
-	switch (config->basemode)
-	{
-		case BASECOLOR_MODE_STEADY:			printf("steady\n");			break;
-		case BASECOLOR_MODE_SLOW_BREATHE:	printf("slow breathe\n");	break;
-		case BASECOLOR_MODE_MEDIUM_BREATHE:	printf("medium breathe\n");	break;
-		case BASECOLOR_MODE_FAST_BREATHE:	printf("fast breathe\n");	break;
-		case BASECOLOR_MODE_TRIGGER:		printf("trigger\n");		break;
-		case BASECOLOR_MODE_BATTERY_STATUS:	printf("battery status\n");	break;
-		default:							printf("unknown\n");
-	}
-	printf ("Base Color: #%02X%02X%02X\n", config->basecolor_r, config->basecolor_g, config->basecolor_b);
 
 	printf ("Wheel Color Mode: ");
 	switch (config->wheelmode)
