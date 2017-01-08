@@ -122,6 +122,148 @@ find_device_list (int vendor,
 #define SENSEI_CPI_MAX  0x3f
 #define SENSEI_CPI_STEP  90
 
+/** Wireless Sleeptime */
+enum sensei_wireless_sleeptime
+{
+	SLEEPTIME_01 = 1,
+	SLEEPTIME_02,
+	SLEEPTIME_03,
+	SLEEPTIME_04,
+	SLEEPTIME_05,
+	SLEEPTIME_06,
+	SLEEPTIME_07,
+	SLEEPTIME_08,
+	SLEEPTIME_09,
+	SLEEPTIME_10,
+	SLEEPTIME_11,
+	SLEEPTIME_12,
+	SLEEPTIME_13,
+	SLEEPTIME_14,
+	SLEEPTIME_15,
+	SLEEPTIME_16,
+	SLEEPTIME_17,
+	SLEEPTIME_18,
+	SLEEPTIME_19,
+	SLEEPTIME_20
+};
+
+/** Wireless Sensor Smart Mode. */
+enum sensei_wireless_sensor_smartmode
+{
+	SMARTSENSOR_OFF = 0,
+	SMARTSENSOR_ON
+};
+
+/** Wireless Illumination Smart Mode. */
+enum sensei_wireless_illumination_smartmode
+{
+	SMARTILLUMINATION_OFF = 0,
+	SMARTILLUMINATION_ON
+};
+
+/** Wireless Lift Distance */
+enum sensei_wireless_liftdistance
+{
+	LIFTDISTANCE_05 = 0,
+	LIFTDISTANCE_04,
+	LIFTDISTANCE_03,
+	LIFTDISTANCE_02,
+	LIFTDISTANCE_01
+};
+
+/** Wireless CPI1. */
+enum sensei_wireless_cpi1
+{
+	CPI1 = 1
+};
+
+/** Wireless CPI2. */
+enum sensei_wireless_cpi2
+{
+	CPI2 = 1
+};
+
+/** Wireless Base Color Mode. */
+enum sensei_wireless_base_mode
+{
+	BASECOLOR_MODE_STEADY = 1,
+	BASECOLOR_MODE_SLOW_BREATHE,
+	BASECOLOR_MODE_MEDIUM_BREATHE,
+	BASECOLOR_MODE_FAST_BREATHE,
+	BASECOLOR_MODE_TRIGGER,
+	BASECOLOR_MODE_BATTERY_STATUS
+};
+
+/** Wireless Base Color. */
+enum sensei_wireless_base_color_r
+{
+	BASECOLOR_R = 1
+};
+
+enum sensei_wireless_base_color_g
+{
+	BASECOLOR_G = 1
+};
+
+enum sensei_wireless_base_color_b
+{
+	BASECOLOR_B = 1
+};
+
+/** Wireless Wheel Color Mode. */
+enum sensei_wireless_wheel_mode
+{
+	WHEELCOLOR_MODE_STEADY = 1,
+	WHEELCOLOR_MODE_SLOW_BREATHE,
+	WHEELCOLOR_MODE_MEDIUM_BREATHE,
+	WHEELCOLOR_MODE_FAST_BREATHE,
+	WHEELCOLOR_MODE_TRIGGER,
+	WHEELCOLOR_MODE_BATTERY_STATUS
+};
+
+/** Wireless Wheel Color. */
+enum sensei_wireless_wheel_color_r
+{
+	WHEELCOLOR_R = 1
+};
+
+enum sensei_wireless_wheel_color_g
+{
+	WHEELCOLOR_G = 1
+};
+
+enum sensei_wireless_wheel_color_b
+{
+	WHEELCOLOR_B = 1
+};
+
+/** Wireless Logo Color Mode. */
+enum sensei_wireless_logo_mode
+{
+	LOGOCOLOR_MODE_STEADY = 1,
+	LOGOCOLOR_MODE_SLOW_BREATHE,
+	LOGOCOLOR_MODE_MEDIUM_BREATHE,
+	LOGOCOLOR_MODE_FAST_BREATHE,
+	LOGOCOLOR_MODE_TRIGGER,
+	LOGOCOLOR_MODE_BATTERY_STATUS
+};
+
+/** Wireless Logo Color. */
+enum sensei_wireless_logo_color_r
+{
+	LOGOCOLOR_R = 1
+};
+
+enum sensei_wireless_logo_color_g
+{
+	LOGOCOLOR_G = 1
+};
+
+enum sensei_wireless_logo_color_b
+{
+	LOGOCOLOR_B = 1
+};
+
 /** Backlight pulsation. */
 enum sensei_pulsation
 {
@@ -165,6 +307,25 @@ struct sensei_config
 	enum sensei_mode mode;
 	int cpi_off;
 	int cpi_on;
+	enum sensei_wireless_sleeptime sleeptime;
+	enum sensei_wireless_sensor_smartmode smartsensor;
+	enum sensei_wireless_illumination_smartmode smartillumination;
+	enum sensei_wireless_liftdistance liftdistance;
+	enum sensei_wireless_cpi1 cpi1;
+	enum sensei_wireless_cpi2 cpi2;
+	enum sensei_wireless_base_mode basemode;
+	enum sensei_wireless_base_color_r basecolor_r;
+	enum sensei_wireless_base_color_g basecolor_g;
+	enum sensei_wireless_base_color_b basecolor_b;
+	enum sensei_wireless_wheel_mode wheelmode;
+	enum sensei_wireless_wheel_color_r wheelcolor_r;
+	enum sensei_wireless_wheel_color_g wheelcolor_g;
+	enum sensei_wireless_wheel_color_b wheelcolor_b;
+	enum sensei_wireless_logo_mode logomode;
+	enum sensei_wireless_logo_color_r logocolor_r;
+	enum sensei_wireless_logo_color_g logocolor_g;
+	enum sensei_wireless_logo_color_b logocolor_b;
+
 	enum sensei_pulsation pulsation;
 	enum sensei_intensity intensity;
 	enum sensei_polling polling;
@@ -260,11 +421,31 @@ sensei_load_config (libusb_device_handle *device,
 	if (result < 0)
 		return result;
 
-	config->intensity = data[102];
-	config->pulsation = data[103];
-	config->cpi_off   = data[107];
-	config->cpi_on    = data[108];
-	config->polling   = data[128];
+	config->sleeptime			= data[74];
+	
+	config->polling				= data[77];
+	
+	config->cpi1				= data[79];
+
+	config->logomode			= data[81];
+	config->logocolor_r			= data[82];
+	config->logocolor_g			= data[83];
+	config->logocolor_b			= data[84];
+	config->wheelmode			= data[85];
+	config->wheelcolor_r		= data[86];
+	config->wheelcolor_g		= data[87];
+	config->wheelcolor_b		= data[88];
+	config->basemode			= data[89];
+	config->basecolor_r			= data[90];
+	config->basecolor_g			= data[91];
+	config->basecolor_b			= data[92];
+	config->liftdistance		= data[93];
+
+	config->cpi2				= data[170];
+	
+	config->smartsensor			= data[189];
+	config->smartillumination	= data[190];
+
 	return 0;
 }
 
@@ -273,39 +454,109 @@ sensei_load_config (libusb_device_handle *device,
 static void
 sensei_display_config (const struct sensei_config *config)
 {
-	printf ("Backlight intensity: ");
-	switch (config->intensity)
+	printf ("Sleep timer: ");
+	switch (config->sleeptime)
 	{
-	case INTENSITY_OFF:     printf ("off\n");     break;
-	case INTENSITY_LOW:     printf ("low\n");     break;
-	case INTENSITY_MEDIUM:  printf ("medium\n");  break;
-	case INTENSITY_HIGH:    printf ("high\n");    break;
-	default:                printf ("unknown\n");
+		case SLEEPTIME_01:	printf (" 1s\n");     break;
+		case SLEEPTIME_02:	printf (" 2s\n");     break;
+		case SLEEPTIME_03:	printf (" 3s\n");     break;
+		case SLEEPTIME_04:	printf (" 4s\n");     break;
+		case SLEEPTIME_05:	printf (" 5s\n");     break;
+		case SLEEPTIME_06:	printf (" 6s\n");     break;
+		case SLEEPTIME_07:	printf (" 7s\n");     break;
+		case SLEEPTIME_08:	printf (" 8s\n");     break;
+		case SLEEPTIME_09:	printf (" 9s\n");     break;
+		case SLEEPTIME_10:	printf ("10s\n");     break;
+		case SLEEPTIME_11:	printf ("11s\n");     break;
+		case SLEEPTIME_12:	printf ("12s\n");     break;
+		case SLEEPTIME_13:	printf ("13s\n");     break;
+		case SLEEPTIME_14:	printf ("14s\n");     break;
+		case SLEEPTIME_15:	printf ("15s\n");     break;
+		case SLEEPTIME_16:	printf ("16s\n");     break;
+		case SLEEPTIME_17:	printf ("17s\n");     break;
+		case SLEEPTIME_18:	printf ("18s\n");     break;
+		case SLEEPTIME_19:	printf ("19s\n");     break;
+		case SLEEPTIME_20:	printf ("20s\n");     break;
+		default:			printf ("unknown\n");
 	}
 
-	printf ("Backlight pulsation: ");
-	switch (config->pulsation)
+	printf ("Sensor Smart Mode: ");
+	switch (config->smartsensor)
 	{
-	case PULSATION_STEADY:  printf ("steady\n");  break;
-	case PULSATION_SLOW:    printf ("slow\n");    break;
-	case PULSATION_MEDIUM:  printf ("medium\n");  break;
-	case PULSATION_FAST:    printf ("fast\n");    break;
-	case PULSATION_TRIGGER: printf ("trigger\n"); break;
-	case PULSATION_MOVEMENT: printf ("movement\n"); break;
-	default:                printf ("unknown\n");
+		case SMARTSENSOR_ON:	printf("On\n");		break;
+		case SMARTSENSOR_OFF:	printf("Off\n");	break;
+		default:				printf("unknown\n");
 	}
 
-	printf ("Speed in CPI (LED is off): %d\n", 90 * config->cpi_off);
-	printf ("Speed in CPI (LED is on): %d\n", 90 * config->cpi_on);
+	printf ("Illumination Smart Mode: ");
+	switch (config->smartillumination)
+	{
+		case SMARTILLUMINATION_ON:	printf("On\n");		break;
+		case SMARTILLUMINATION_OFF:	printf("Off\n");	break;
+		default:					printf("unknown\n");
+	}
+
+	printf ("Lift distance: ");
+	switch (config->liftdistance)
+	{
+		case LIFTDISTANCE_01:	printf("1\n");	break;
+		case LIFTDISTANCE_02:	printf("2\n");	break;
+		case LIFTDISTANCE_03:	printf("3\n");	break;
+		case LIFTDISTANCE_04:	printf("4\n");	break;
+		case LIFTDISTANCE_05:	printf("5\n");	break;
+		default:				printf("unknown\n");
+	}
+
+	printf ("Base Color Mode: ");
+	switch (config->basemode)
+	{
+		case BASECOLOR_MODE_STEADY:			printf("steady\n");			break;
+		case BASECOLOR_MODE_SLOW_BREATHE:	printf("slow breathe\n");	break;
+		case BASECOLOR_MODE_MEDIUM_BREATHE:	printf("medium breathe\n");	break;
+		case BASECOLOR_MODE_FAST_BREATHE:	printf("fast breathe\n");	break;
+		case BASECOLOR_MODE_TRIGGER:		printf("trigger\n");		break;
+		case BASECOLOR_MODE_BATTERY_STATUS:	printf("battery status\n");	break;
+		default:							printf("unknown\n");
+	}
+	printf ("Base Color: #%02X%02X%02X\n", config->basecolor_r, config->basecolor_g, config->basecolor_b);
+
+	printf ("Wheel Color Mode: ");
+	switch (config->wheelmode)
+	{
+		case WHEELCOLOR_MODE_STEADY:		printf("steady\n");			break;
+		case WHEELCOLOR_MODE_SLOW_BREATHE:	printf("slow breathe\n");	break;
+		case WHEELCOLOR_MODE_MEDIUM_BREATHE:printf("medium breathe\n");	break;
+		case WHEELCOLOR_MODE_FAST_BREATHE:	printf("fast breathe\n");	break;
+		case WHEELCOLOR_MODE_TRIGGER:		printf("trigger\n");		break;
+		case WHEELCOLOR_MODE_BATTERY_STATUS:printf("battery status\n");	break;
+		default:							printf("unknown\n");
+	}
+	printf ("Wheel Color: #%02X%02X%02X\n", config->wheelcolor_r, config->wheelcolor_g, config->wheelcolor_b);
+	
+	printf ("Logo Color Mode: ");
+	switch (config->logomode)
+	{
+		case LOGOCOLOR_MODE_STEADY:			printf("steady\n");			break;
+		case LOGOCOLOR_MODE_SLOW_BREATHE:	printf("slow breathe\n");	break;
+		case LOGOCOLOR_MODE_MEDIUM_BREATHE:	printf("medium breathe\n");	break;
+		case LOGOCOLOR_MODE_FAST_BREATHE:	printf("fast breathe\n");	break;
+		case LOGOCOLOR_MODE_TRIGGER:		printf("trigger\n");		break;
+		case LOGOCOLOR_MODE_BATTERY_STATUS:	printf("battery status\n");	break;
+		default:							printf("unknown\n");
+	}
+	printf ("Logo Color: #%02X%02X%02X\n", config->logocolor_r, config->logocolor_g, config->logocolor_b);
+
+	printf ("Sensitivity 1 (CPI 1): %d\n", 50 * config->cpi1); // * 100 if > 164
+	printf ("Sensitivity 2 (CPI 2): %d\n", 50 * config->cpi2); // * 100 if > 164
 
 	printf ("Polling frequency: ");
 	switch (config->polling)
 	{
-	case POLLING_1000_HZ:  printf ("1000Hz\n");  break;
-	case POLLING_500_HZ:   printf ("500Hz\n");   break;
-	case POLLING_250_HZ:   printf ("250Hz\n");   break;
-	case POLLING_125_HZ:   printf ("125Hz\n");   break;
-	default:               printf ("unknown\n");
+		case POLLING_1000_HZ:  printf ("1000Hz\n");  break;
+		case POLLING_500_HZ:   printf ("500Hz\n");   break;
+		case POLLING_250_HZ:   printf ("250Hz\n");   break;
+		case POLLING_125_HZ:   printf ("125Hz\n");   break;
+		default:               printf ("unknown\n");
 	}
 }
 
